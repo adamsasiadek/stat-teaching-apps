@@ -55,9 +55,10 @@ shinyServer(function(input, output){
         
         ggplot(candie.sample.coordinates.df, aes(x = candie.color, fill = candie.color)) + 
           geom_dotplot(method = "dotdensity",dotsize = 2) + 
-          scale_fill_manual(values = levels(candie.sample.coordinates.df$candie.color)) +
+          scale_fill_manual(values = levels(candie.sample.coordinates.df$candie.color), 
+                            limits = levels(candie.coordinates.df$candie.color)) +
           scale_y_continuous(name = NULL, breaks = NULL) +
-          scale_x_discrete(name = "Candie color") + 
+          scale_x_discrete(name = "Candy color") + 
           theme(legend.position = "none")
       })
   
