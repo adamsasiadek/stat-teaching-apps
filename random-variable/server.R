@@ -77,7 +77,7 @@ shinyServer(function(input, output) {
           values = brewercolors,
           limits = candy$colornames) +
           scale_y_continuous(name = NULL, breaks = NULL) +
-        scale_x_discrete(name = "Candy color", breaks = candy.colornames, drop = FALSE) +
+        scale_x_discrete(name = "Candy color", breaks = candy$colornames, drop = FALSE) +
         theme(legend.position = "none")
     })
     
