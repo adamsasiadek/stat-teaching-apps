@@ -3,6 +3,7 @@ library(plotly)
 library(ggplot2)
 library(dplyr)
 library(scales)
+library(RColorBrewer)
 
 
 shinyServer(function(input, output) {
@@ -20,7 +21,7 @@ shinyServer(function(input, output) {
   #Container for all samples taken
   candy.sample.history.df <- character()
   
-  # Plot of proportions
+  #Plot of proportions
   output$populationproportions <-  renderPlot({
     ggplot(as.data.frame(candy),
            aes(x = colornames, y = proportions, fill = colornames)) +
@@ -37,7 +38,18 @@ shinyServer(function(input, output) {
             legend.position = "none")
   })
   
-  # Events triggered by small sample button
+  #Clearing the stage
+  output$lastsampletext <-renderText("")
+  
+  output$countplot <- renderPlot({
+    ggplot()
+  })
+  
+  output$samplingstatisticplot <- renderPlot({
+    ggplot()
+  })
+
+  #Events triggered by small sample button
   observeEvent(input$smallsample, {
     #Take sample of candies
     candy.sample.df <-
@@ -50,7 +62,7 @@ shinyServer(function(input, output) {
         ),
         levels = sort(candy$colornames)
       ))
-    
+    #Append sample to history of samples
     candy.sample.history.df <<-
       rbind(candy.sample.history.df,
             as.data.frame(
@@ -58,7 +70,7 @@ shinyServer(function(input, output) {
                     exclude = candy$colornames[candy$colornames != "Yellow"])
             ))
     
-    #Dotplot
+    #Dotplot small sample
     output$countplot <- renderPlot({
       ggplot(candy.sample.df) +
         geom_dotplot(
@@ -77,8 +89,17 @@ shinyServer(function(input, output) {
               legend.position = "none")
     })
     
-    #Sampling-distribution plot
+    #Text indicating the yellow candies in last sample
+    output$lastsampletext <-
+      renderText(as.character(last(candy.sample.history.df$Freq)
+      ))
+    #Sampling-distribution plot small sample
     output$samplingstatisticplot <- renderPlot({
+      
+      #Highlighting the last sample tickmark to red.
+      tickmarkcolors <- rep("black", 11)
+      tickmarkcolors[tail(candy.sample.history.df$Freq, n= 1) + 1] <- "red"
+      
       ggplot(candy.sample.history.df, aes(x = Freq)) +
         geom_bar(fill = brewercolors["Yellow"]) +
         scale_x_continuous(name = "",
@@ -86,18 +107,18 @@ shinyServer(function(input, output) {
                            limits = c(-1, 10)) +
         scale_y_continuous(
           breaks =  function (x)
-            floor(pretty(seq(1, max(
-              x
-            ) + 1)))
-        ) +
+            floor(pretty(seq(1, max(x) + 1)))) +
         ggtitle("Sampling distribution") +
-        theme(plot.title = element_text(hjust = 0.5))
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x= element_text(colour = tickmarkcolors)) 
+        
     })
     
   })
   
   #Events triggered by large sample button
   observeEvent(input$largesample, {
+    
     for (i in 1:1000) {
       candy.sample.df <-
         data.frame(candy.sample = factor(
@@ -109,7 +130,7 @@ shinyServer(function(input, output) {
           ),
           levels = sort(candy$colornames)
         ))
-      
+      #Append 
       candy.sample.history.df <<-
         rbind(candy.sample.history.df,
               as.data.frame(
@@ -120,7 +141,7 @@ shinyServer(function(input, output) {
     
     
     
-    #Dotplot
+    #Dotplot large sample
     output$countplot <- renderPlot({
       ggplot(candy.sample.df) +
         geom_dotplot(
@@ -139,23 +160,42 @@ shinyServer(function(input, output) {
               legend.position = "none")
     })
     
-    #Sampling-distribution plot
+    #Text indicating the yellow candies in last sample
+    output$lastsampletext <-
+      renderText(as.character(last(candy.sample.history.df$Freq)))
+      
+    
+    #Sampling-distribution plot large sample
     output$samplingstatisticplot <- renderPlot({
+      
+      #Highlighting the last sample tickmark to red.
+      tickmarkcolors <- rep("black", 11)
+      tickmarkcolors[tail(candy.sample.history.df$Freq, n= 1) + 1] <- "red"
+      
       ggplot(candy.sample.history.df, aes(x = Freq)) +
         geom_bar(fill = brewercolors["Yellow"]) +
         scale_x_continuous(name = "",
                            breaks = 0:10,
                            limits = c(-1, 10)) +
         scale_y_continuous(
-          breaks =  function (x)
-            floor(pretty(seq(1, max(
-              x
-            ) + 1)))
-        ) +
+          breaks =  function (x) floor(pretty(seq(1, max(x) + 1)))) +
         ggtitle("Sampling distribution") +
-        theme(plot.title = element_text(hjust = 0.5))
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x= element_text(colour = tickmarkcolors))
+    })
+  })
+  #Reset button
+  observeEvent(input$reset,{
+    candy.sample.history.df <<- character()
+    
+    output$lastsampletext <-renderText("")
+    
+    output$countplot <- renderPlot({
+      ggplot()
     })
     
-    
+    output$samplingstatisticplot <- renderPlot({
+      ggplot()
+    })
   })
 })

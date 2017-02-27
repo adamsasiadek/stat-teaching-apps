@@ -11,6 +11,8 @@ shinyUI(fluidPage(verticalLayout(
     
     plotOutput("countplot", width = fig.width, height = fig.height + 70),
     
+    "Yellow candy in last sample:", strong(textOutput("lastsampletext", inline = TRUE)),
+    
     plotOutput("samplingstatisticplot", width = fig.width, height = fig.height)
     
   ),
@@ -23,7 +25,8 @@ shinyUI(fluidPage(verticalLayout(
       align = "center",
       
       actionButton("smallsample", "Take a random sample of 10"),
-      actionButton("largesample", "Take 1000 random samples of 10")
+      actionButton("largesample", "Take 1000 random samples of 10"),
+      actionButton("reset", "Reset")
       
     ),
     
@@ -31,4 +34,5 @@ shinyUI(fluidPage(verticalLayout(
     
   )
   
+
 )))
