@@ -25,7 +25,7 @@ shinyServer(function(input, output) {
   output$populationproportions <-  renderPlot({
     ggplot(as.data.frame(candy),
            aes(x = colornames, y = proportions, fill = colornames)) +
-      geom_col() +
+      geom_bar(stat = "identity") +
       scale_y_continuous(
         name = "Proportion",
         breaks = seq(0, 1, by = 0.2),

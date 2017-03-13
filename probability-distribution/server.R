@@ -6,7 +6,7 @@ library(RColorBrewer)
 shinyServer(function(input, output) {
   
   #Load standard colors
-  brewercolors <- brewer.pal(length(candy$colornames), name =  "Spectral")
+  brewercolors <- brewer.pal(5, name =  "Spectral")
   names(brewercolors) <-c("Red", "Orange", "Yellow", "Green", "Blue")
   
   #Output the table
