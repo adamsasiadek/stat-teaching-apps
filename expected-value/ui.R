@@ -4,10 +4,6 @@ fig.height <- 150
 shinyUI(fluidPage(verticalLayout(
   fluidRow(
     align = "center",
-    plotOutput("expectedvalueplot", width = fig.width, height = fig.height)
-  ),
-  fluidRow(
-    align = "center",
     
     sliderInput(
       "probslider",
@@ -17,6 +13,11 @@ shinyUI(fluidPage(verticalLayout(
       max = 1,
       step = 0.1
     )
+  ),
+  fluidRow(
+    align = "center",
+    p(strong("Sampling distribution")),
+    plotOutput("expectedvalueplot", width = fig.width, height = fig.height)
   ),
   fluidRow(
     align = "center",
