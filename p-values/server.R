@@ -38,6 +38,9 @@ shinyServer(function(input, output) {
                  x <= input$rangeslider[2]),
         c(input$rangeslider[2], 0)
       )
+    
+    #Reset names to avoid empty subset breaking ggplot
+    names(shadecenter) <- c("x", "prob.dens")
     # Main plot
     ggplot(data = data.frame(x = c(0, 6)), aes(x = x)) +
       geom_polygon(data = shadeleft, aes(x, y = prob.dens), fill = brewercolors["Red"]) +
