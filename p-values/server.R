@@ -1,0 +1,95 @@
+library(ggplot2)
+library(shiny)
+library(RColorBrewer)
+
+
+shinyServer(function(input, output) {
+   
+  #load standard colors
+  brewercolors <- brewer.pal( 5, name =  "Spectral")
+  names(brewercolors) <- c("Red", "Orange", "Yellow", "Green", "Blue")
+  
+  #Generate data for plotting
+  df <- data.frame(x = seq(0, 6, by = 0.01),
+                   prob.dens = dnorm(
+                     x = seq(0, 6, by = 0.01),
+                     mean = 2.8,
+                     sd = 0.6
+                   ))
+  
+  #Plot the distribution
+  output$pvalueplot <- renderPlot({
+    
+    #Prepare the data frames for plotting the probability polygons
+    shadeleft  <-
+      rbind(subset(df, x <= input$rangeslider[1]), c(input$rangeslider[1], 0))
+    
+    shaderight <-
+      rbind(
+        c(input$rangeslider[2], 0),
+        subset(df, x >= input$rangeslider[2]),
+        c(input$rangeslider[2], 0)
+      )
+    
+    shadecenter <-
+      rbind(
+        c(input$rangeslider[1], 0),
+        subset(df, x >= input$rangeslider[1] &
+                 x <= input$rangeslider[2]),
+        c(input$rangeslider[2], 0)
+      )
+    # Main plot
+    ggplot(data = data.frame(x = c(0, 6)), aes(x = x)) +
+      geom_polygon(data = shadeleft, aes(x, y = prob.dens), fill = brewercolors["Red"]) +
+      geom_polygon(data = shaderight, aes(x, y = prob.dens), fill = brewercolors["Green"]) +
+      geom_polygon(data = shadecenter, aes(x, y = prob.dens), fill = brewercolors["Blue"]) +
+      stat_function(fun = dnorm,
+                    n = 101,
+                    args = list(mean = 2.8, sd = 0.6)) + ylab("Probability density") +
+      xlab("Candy weight") + 
+      geom_label(
+        data = data.frame(x = 0.8, y = 0.6),
+        aes(x, y),
+        fill = brewercolors["Red"],
+        label = paste("Probability:", round(
+          pnorm(input$rangeslider[1], mean = 2.8, sd = 0.6), digits = 2
+        ))
+      ) +
+      geom_label(
+        data = data.frame(x = 0.8, y = 0.4),
+        aes(x, y),
+        fill = brewercolors["Blue"],
+        label = paste("Probability:", round((
+          1 - pnorm(
+            input$rangeslider[2],
+            mean = 2.8,
+            sd = .6,
+            lower.tail = FALSE
+          ) - pnorm(
+            input$rangeslider[1],
+            mean = 2.8,
+            sd = 0.6,
+            lower.tail = TRUE
+          )
+        ),
+        digits = 2))
+      ) +
+      geom_label(
+        data = data.frame(x = 0.8, y = 0.2),
+        aes(x, y),
+        fill = brewercolors["Green"],
+        label = paste("Probability:", round(
+          pnorm(
+            input$rangeslider[2],
+            mean = 2.8,
+            sd = 0.6,
+            lower.tail = FALSE
+          ),
+          digits = 2
+        ))
+      )
+    
+    
+  })
+
+})
