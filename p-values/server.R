@@ -46,20 +46,25 @@ shinyServer(function(input, output) {
       stat_function(fun = dnorm,
                     n = 101,
                     args = list(mean = 2.8, sd = 0.6)) + ylab("Probability density") +
-      xlab("Candy weight") + 
-      geom_label(
+      xlab("") + 
+      ggtitle("Sampling Distribution") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+    geom_label(
         data = data.frame(x = 0.8, y = 0.6),
         aes(x, y),
+        colour = "white",
         fill = brewercolors["Red"],
-        label = paste("Probability:", round(
-          pnorm(input$rangeslider[1], mean = 2.8, sd = 0.6), digits = 2
+        label = paste("Probability:", format(round(
+          pnorm(input$rangeslider[1], mean = 2.8, sd = 0.6), digits = 3
+        ), nsmall = 3
         ))
       ) +
       geom_label(
         data = data.frame(x = 0.8, y = 0.4),
         aes(x, y),
+        colour = "white",
         fill = brewercolors["Blue"],
-        label = paste("Probability:", round((
+        label = paste("Probability:", format(round((
           1 - pnorm(
             input$rangeslider[2],
             mean = 2.8,
@@ -72,22 +77,24 @@ shinyServer(function(input, output) {
             lower.tail = TRUE
           )
         ),
-        digits = 2))
+        digits = 3), nsmall = 3
+        ))
       ) +
       geom_label(
         data = data.frame(x = 0.8, y = 0.2),
         aes(x, y),
+        colour = "white",
         fill = brewercolors["Green"],
-        label = paste("Probability:", round(
+        label = paste("Probability:", format(round(
           pnorm(
             input$rangeslider[2],
             mean = 2.8,
             sd = 0.6,
             lower.tail = FALSE
           ),
-          digits = 2
+          digits = 3), nsmall = 3
         ))
-      )
+      ) 
     
     
   })

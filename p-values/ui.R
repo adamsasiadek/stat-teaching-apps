@@ -16,7 +16,8 @@ shinyUI(fluidPage(verticalLayout(
                         min = 0,
                         max = 6,
                         value = c(2,3),
-                        step = 0.1
+                        step = 0.01,
+                        width = 330
                         )
            )
 )))
