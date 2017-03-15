@@ -1,3 +1,5 @@
+library(shiny)
+
 fig.width <- 400
 fig.height <- 150
 
@@ -24,7 +26,7 @@ shinyUI(fluidPage(verticalLayout(
     
     numericInput(
       "answer",
-      "What number of yellow candies do you expect?",
+      "How many yellow candies do you expect?",
       value = 0,
       min = 0,
       max = 10,
