@@ -2,14 +2,12 @@ library(shiny)
 library(ggplot2)
 library(RColorBrewer)
 
+#Load general plot theme and colors for color brewer
+source("C:/Users/asasiad1/surfdrive/rprojects/stat-teaching-apps/plottheme/styling.R")
 
 shinyServer(function(input, output) {
-  #load standard colors
-  brewercolors <- brewer.pal(5, name =  "Spectral")
-  names(brewercolors) <-
-    c("Red", "Orange", "Yellow", "Green", "Blue")
-  
-  #Store expectedvalueplot
+
+    #Store expectedvalueplot
   expectedvalueplot <- renderPlot({
     df <- data.frame("Number.of.Yellow.candies" = 0:10,
                      Probability = round(dbinom(0:10, 10, input$probslider), 3))
@@ -21,7 +19,8 @@ shinyServer(function(input, output) {
       geom_bar(stat = "identity", fill = brewercolors["Yellow"]) +
       scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = .2)) +
       scale_x_continuous(limits = c(-.5, 10.5), breaks = 0:10) + 
-      xlab("Number of yellow candies")
+      xlab("Number of yellow candies") +
+      theme_general()
 
   })
   #Create an additional trigger for changes in the slider
@@ -58,7 +57,8 @@ shinyServer(function(input, output) {
           scale_y_continuous(limits = c(0, 1),
                              breaks = seq(0, 1, by = .2)) +
           scale_x_continuous(limits = c(-.5, 10.5), breaks = 0:10) + 
-          xlab("Number of yellow candies")
+          xlab("Number of yellow candies") + 
+          theme_general()
       })
     }
     else {

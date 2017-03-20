@@ -1,6 +1,7 @@
 library(ggplot2)
 library(shiny)
 
+source("C:/Users/asasiad1/surfdrive/rprojects/stat-teaching-apps/plottheme/styling.R")
 
 shinyServer(function(input, output) {
   n <- 10   #Sample size
@@ -26,7 +27,7 @@ shinyServer(function(input, output) {
       xlab("Candy Weight") +
       ylab("Density") + 
       scale_x_continuous(limits = c(0, 6)) +
-      theme_classic()
+      theme_general()
   })
   
   #Samplingdistplot
@@ -55,7 +56,7 @@ shinyServer(function(input, output) {
       ggtitle("Sampling Distribution") +
       xlab("Average Candy Weight") +
       ylab("Density") +
-      theme_classic()
+      theme_general()
   })
   
   #Sampleplot
@@ -77,7 +78,7 @@ shinyServer(function(input, output) {
       ylab("Count") + 
       scale_x_continuous(limits = c(0, 6)) +
       scale_y_continuous(limits = c(0, 10)) +
-      theme_classic()
+      theme_general()
     
   })
 })

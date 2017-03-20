@@ -1,7 +1,8 @@
 library(shiny)
 library(ggplot2)
-library(RColorBrewer)
 
+#load colorpalette & styling for plots
+source("C:/Users/asasiad1/surfdrive/rprojects/stat-teaching-apps/plottheme/styling.R")
 
 shinyServer(function(input, output) {
     #Handy candy variables
@@ -9,10 +10,6 @@ shinyServer(function(input, output) {
     colornames = c("Red", "Orange", "Yellow", "Green", "Blue"),
     counts = c(30, 30, 30, 30,30)
   )
-  
-  #Colorpalette 
-  brewercolors <- brewer.pal(length(candy$colornames), name =  "Spectral")
-  names(brewercolors) <- candy$colornames
   
   #X variable necessary to generate nice looking population plot
   x <- 1:29  
@@ -57,6 +54,7 @@ shinyServer(function(input, output) {
           shape = "O",
           aes(x = x, y = y)
         ) +
+        theme_general() +
         theme(
           rect             = element_blank(),
           line             = element_blank(),
@@ -76,7 +74,9 @@ shinyServer(function(input, output) {
           limits = candy$colornames) +
           scale_y_continuous(name = NULL, breaks = NULL) +
         scale_x_discrete(name = "Candy color", breaks = candy$colornames, drop = FALSE) +
+        theme_general() +
         theme(legend.position = "none")
+        
     })
     
   })

@@ -1,10 +1,11 @@
 library(shiny)
-#library(plotly)
 library(ggplot2)
 library(dplyr)
 library(scales)
 library(RColorBrewer)
 
+#Load general plot theme and colors for color brewer
+source("C:/Users/asasiad1/surfdrive/rprojects/stat-teaching-apps/plottheme/styling.R")
 
 shinyServer(function(input, output) {
   # Handy candy variables
@@ -13,11 +14,7 @@ shinyServer(function(input, output) {
     colornames = c("Red", "Orange", "Yellow", "Green", "Blue")
   )
   
-  #Colorpalette variables
-  brewercolors <-
-    brewer.pal(length(candy$colornames), name =  "Spectral")
-  names(brewercolors) <- candy$colornames
-  
+
   #Container for all samples taken
   candy.sample.history.df <- character()
   
@@ -34,6 +31,7 @@ shinyServer(function(input, output) {
       scale_x_discrete(name = "Candy" , breaks = candy$colornames) +
       scale_fill_manual(values = brewercolors) +
       ggtitle("Candy proportions in Population") +
+      theme_general() + 
       theme(plot.title = element_text(hjust = 0.5),
             legend.position = "none")
   })
@@ -42,11 +40,13 @@ shinyServer(function(input, output) {
   output$lastsampletext <-renderText("")
   
   output$countplot <- renderPlot({
-    ggplot()
+    ggplot() + 
+      theme_general()
   })
   
   output$samplingstatisticplot <- renderPlot({
-    ggplot()
+    ggplot() + 
+      theme_general()
   })
 
   #Events triggered by small sample button
@@ -84,7 +84,8 @@ shinyServer(function(input, output) {
         scale_x_discrete(name = "Candy color",
                          breaks = candy$colornames,
                          drop = FALSE) +
-        ggtitle("Last sample") +
+        ggtitle("Last sample") + 
+        theme_general() + 
         theme(plot.title = element_text(hjust = 0.5),
               legend.position = "none")
     })
@@ -109,6 +110,7 @@ shinyServer(function(input, output) {
           breaks =  function (x)
             floor(pretty(seq(1, max(x) + 1)))) +
         ggtitle("Sampling distribution") +
+        theme_general() + 
         theme(plot.title = element_text(hjust = 0.5),
               axis.text.x= element_text(colour = tickmarkcolors)) 
         
@@ -156,6 +158,7 @@ shinyServer(function(input, output) {
                          breaks = candy$colornames,
                          drop = FALSE) +
         ggtitle("Last sample") +
+        theme_general() + 
         theme(plot.title = element_text(hjust = 0.5),
               legend.position = "none")
     })
@@ -180,6 +183,7 @@ shinyServer(function(input, output) {
         scale_y_continuous(
           breaks =  function (x) floor(pretty(seq(1, max(x) + 1)))) +
         ggtitle("Sampling distribution") +
+        theme_general() + 
         theme(plot.title = element_text(hjust = 0.5),
               axis.text.x= element_text(colour = tickmarkcolors))
     })
@@ -191,11 +195,13 @@ shinyServer(function(input, output) {
     output$lastsampletext <-renderText("")
     
     output$countplot <- renderPlot({
-      ggplot()
+      ggplot() + 
+        theme_general()
     })
     
     output$samplingstatisticplot <- renderPlot({
-      ggplot()
+      ggplot() + 
+        theme_general()
     })
   })
 })
