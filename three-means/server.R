@@ -1,5 +1,4 @@
-
-
+library(ggplot2)
 library(shiny)
 
 
@@ -23,6 +22,9 @@ shinyServer(function(input, output) {
         linetype = "dashed",
         size = 1
       ) +
+      ggtitle("Population Distribution") +
+      xlab("Candy Weight") +
+      ylab("Density") + 
       scale_x_continuous(limits = c(0, 6)) +
       theme_classic()
   })
@@ -50,6 +52,9 @@ shinyServer(function(input, output) {
         args = list(mean = input$populationslider, sd = sdpop/sqrt(n))
       )+ 
       scale_x_continuous(limits = c(0, 6)) +
+      ggtitle("Sampling Distribution") +
+      xlab("Average Candy Weight") +
+      ylab("Density") +
       theme_classic()
   })
   
@@ -67,6 +72,9 @@ shinyServer(function(input, output) {
         linetype = "dashed",
         size = 1
       ) +
+      ggtitle("Sample Distribution") + 
+      xlab("Candy weight") + 
+      ylab("Count") + 
       scale_x_continuous(limits = c(0, 6)) +
       scale_y_continuous(limits = c(0, 10)) +
       theme_classic()
