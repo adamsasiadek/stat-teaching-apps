@@ -11,4 +11,5 @@ theme_general <- function() {
 }
 # Standard colors to use
 brewercolors <- brewer.pal( 5, name =  "Spectral")
+brewercolors[3] <- "#ffff00"
 names(brewercolors) <- c("Red", "Orange", "Yellow", "Green", "Blue")
