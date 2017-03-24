@@ -42,7 +42,7 @@ shinyServer(function(input, output) {
 
   #Sampling distribution
   theoreticalsample <- replicate(sample(1:5, size = N,
-                                        prob = rep(.2,5),
+                                        prob = rep(0.2,5),
                                         replace = TRUE),
                                  n = repstheor)
   #Generate proportions of for each of the samples
@@ -55,7 +55,7 @@ shinyServer(function(input, output) {
  # Reactive container for changing values
   samples <- 
     reactiveValues(
-      firstsample = numeric(),
+      firstsample = rep(1:5,each = 10),
       hist = factor(),
       lastsample = factor()
     )

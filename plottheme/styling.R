@@ -4,8 +4,8 @@ library(RColorBrewer)
 theme_general <- function() {
   theme_classic() +
     theme(
-      text = element_text(size = 15),
-      plot.title = element_text(hjust = 0.5),
+      text = element_text(size = 12),
+      plot.title = element_text(hjust = 0.5, size = 13),
       panel.border=element_rect(fill=NA)
     )
 }

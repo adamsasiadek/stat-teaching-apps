@@ -21,12 +21,12 @@ shinyUI(
                           width = fig.width)
                ),
       fluidRow(align = "center",
-               actionButton("firstsampleaction",
-                            label = "Draw initial sample"),
                actionButton("bootstrapsmallaction", 
                             label = "Bootstrap one sample"),
                actionButton("bootstraplargeaction", 
-                            label = "Bootstrap 1000 samples")
+                            label = "Bootstrap 1000 samples"),
+               actionButton("firstsampleaction",
+                            label = "Draw new initial sample")
                )
     )
   )
