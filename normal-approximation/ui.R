@@ -1,5 +1,5 @@
 fig.width = 400
-fig.height = 150
+fig.height = 250
 
 library(shiny)
 
