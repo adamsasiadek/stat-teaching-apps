@@ -49,6 +49,10 @@ shinyServer(function(input, output) {
     datahist <- data.frame(candyweight = data$sample)
     datahist$colours <- cut(datahist$candyweight, breaks = c(0,lowerthres,upperthres,6), include.lowest = TRUE)
     brk <-levels(datahist$colours)
+<<<<<<< HEAD
+=======
+    print(brewercolors["Red"])
+>>>>>>> a8e40e5064575fc0fa46dacee1a2de52bd9099ef
     colors <- unname(c(brewercolors["Red"],brewercolors["Blue"], brewercolors["Green"]))
     ##GGPLOT
     ggplot(datahist, aes(x = candyweight, fill = colours)) +
@@ -66,6 +70,7 @@ shinyServer(function(input, output) {
         )
       ) +
       geom_vline(
+<<<<<<< HEAD
         aes(xintercept = lowerthres),
             colour = brewercolors["Red"],
             linetype = "dashed",
@@ -75,6 +80,17 @@ shinyServer(function(input, output) {
         aes(xintercept = upperthres),
         linetype = "dashed",
         colour = brewercolors["Green"],
+=======
+        aes(xintercept = lowerthres,
+            colour = brewercolors["Blue"]),
+        linetype = "dashed",
+        size = 1
+      ) +
+      geom_vline(
+        aes(xintercept = upperthres,
+            colour = brewercolors["Red"]),
+        linetype = "dashed",
+>>>>>>> a8e40e5064575fc0fa46dacee1a2de52bd9099ef
         size = 1
       ) +
       geom_text(
@@ -88,7 +104,11 @@ shinyServer(function(input, output) {
         label = "Upper 2.5%",
         aes(x = upperthres,
             y = 20),
+<<<<<<< HEAD
         colour = brewercolors["Green"],
+=======
+        colour = brewercolors["Blue"],
+>>>>>>> a8e40e5064575fc0fa46dacee1a2de52bd9099ef
         hjust = 0
       ) +
       xlim(c(0,6)) +
