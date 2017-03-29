@@ -8,10 +8,10 @@ shinyUI(
               splitLayout(cellWidths = c("50%", "50%"),
                      plotOutput("redpopplot",
                                 width = fig.width,
-                                height = fig.height + 130),
+                                height = fig.height + 50),
                      plotOutput("yellowpopplot",
                                 width = fig.width,
-                                height = fig.height + 130)
+                                height = fig.height + 50)
                      )
                ),
      fluidRow(align = "center",

@@ -42,7 +42,7 @@ shinyServer(function(input, output) {
      largesamplered <- replicate(sample(population$red,
                                         size = n,
                                         replace = TRUE),n = 1000)
-     largesampleyellow <- replicate(sample(population$red,
+     largesampleyellow <- replicate(sample(population$yellow,
                                           size = n,
                                           replace = TRUE),n = 1000)
       
@@ -173,8 +173,8 @@ shinyServer(function(input, output) {
        geom_histogram(fill = "grey",
                       colour = "black",
                       alpha = .8,
-                      binwidth = .13) +
-       coord_cartesian(xlim = c(-1,1)) + 
+                      binwidth = .1) +
+       coord_cartesian(xlim = c(-1.05,1.05)) + 
        scale_x_continuous(name = "Mean differences", breaks = seq(-1,1,by = 0.1)) +
        ggtitle("Sampling distribution of mean differences") +
        theme_general()
