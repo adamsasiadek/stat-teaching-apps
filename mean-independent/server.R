@@ -71,7 +71,7 @@ shinyServer(function(input, output) {
                  aes(xintercept = redmean,
                      linetype = paste("Average =",redmean))) +
       coord_cartesian(xlim = c(0,6)) +
-      scale_x_continuous(breaks = seq(0,6,by = .5)) + 
+      scale_x_continuous("Weight", breaks = seq(0,6,by = .5)) + 
       scale_y_continuous(name = NULL , labels = NULL, breaks = NULL) +
       ggtitle("Population of red candy weights") +
       theme_general() + 
@@ -88,7 +88,7 @@ shinyServer(function(input, output) {
                   aes(xintercept = yellowmean,
                       linetype = paste("Average =",yellowmean))) +
        coord_cartesian(xlim = c(0,6)) +
-       scale_x_continuous(breaks = seq(0,6,by = .5)) + 
+       scale_x_continuous("Weight",breaks = seq(0,6,by = .5)) + 
        scale_y_continuous(name = NULL , labels = NULL, breaks = NULL) +
        ggtitle("Population of yellow candy weights") +
        theme_general() + 
@@ -112,7 +112,7 @@ shinyServer(function(input, output) {
                       linetype = paste("Average = ",
                                        round(mean(red), digits = 2)))) +
        coord_cartesian(xlim = c(0,6)) + 
-       scale_x_continuous(breaks = seq(0,6,by = .5)) + 
+       scale_x_continuous("Weight", breaks = seq(0,6,by = .5)) + 
        scale_y_continuous(name = NULL , labels = NULL, breaks = NULL) +
        ggtitle("Last sample of red candy weights") +
        theme_general() + 
@@ -137,7 +137,7 @@ shinyServer(function(input, output) {
                       linetype = paste("Average = ",
                                        round(mean(yellow), digits = 2)))) +
        coord_cartesian(xlim = c(0,6)) + 
-       scale_x_continuous(breaks = seq(0,6,by = .5)) + 
+       scale_x_continuous("Weight", breaks = seq(0,6,by = .5)) + 
        scale_y_continuous(name = NULL , labels = NULL, breaks = NULL) +
        ggtitle("Last sample of yellow candy weights") +
        theme_general() + 
