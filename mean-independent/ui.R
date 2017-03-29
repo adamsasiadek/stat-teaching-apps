@@ -1,28 +1,24 @@
 library(shiny)
-fig.width = 300
+fig.width = 250
 fig.height = 150
 shinyUI(
   fluidPage(
     verticalLayout(
      fluidRow(align = "center",
-              column(width = 6,
+              splitLayout(cellWidths = c("50%", "50%"),
                      plotOutput("redpopplot",
                                 width = fig.width,
-                                height = fig.height + 130)
-                     ),
-              column(width = 6,
+                                height = fig.height + 130),
                      plotOutput("yellowpopplot",
                                 width = fig.width,
                                 height = fig.height + 130)
                      )
-              ),
+               ),
      fluidRow(align = "center",
-              column(width = 6,
+              splitLayout(cellWidths = c("50%", "50%"),
                      plotOutput("redsampplot",
                                 width = fig.width,
-                                height = fig.height)
-              ),
-              column(width = 6,
+                                height = fig.height),
                      plotOutput("yellowsampplot",
                                 width = fig.width,
                                 height = fig.height)
