@@ -7,11 +7,10 @@ shinyServer(function(input, output) {
   n = 30 # sample size
   mean = 2.8 #population mean
   sd = runif(n = 1, min = 0.2, max = 1) #Population standard deviation
-  se = sd/sqrt(n) #Standard error 
-  
+
   output$mainplot <- renderPlot({
     tailarea <- (1 - input$mainslider / 100) / 2 #calculates value for qnorm
-    error <- qnorm(1 - tailarea) * se # Distance from mean
+    error <- qnorm(1 - tailarea) * sd # Distance from mean
     left <- mean - error #Left confidence interval border
     right <- mean + error #Right confidence interval border
  
@@ -30,13 +29,13 @@ shinyServer(function(input, output) {
       stat_function(fun = dnorm,
                     xlim = c(left,right),
                     geom = "area",
-                    fill = brewercolors["Green"],
+                    fill = "white",
                     args = list(mean = mean, sd = sd)) +
       #Right area under curve
       stat_function(fun = dnorm,
                     xlim = c(right,10),
                     geom = "area",
-                    fill = brewercolors["Red"],
+                    fill = brewercolors["Blue"],
                     args = list(mean = mean, sd = sd)) +
       #Normal function line 
       stat_function(fun = dnorm,
