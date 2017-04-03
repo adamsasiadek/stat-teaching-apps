@@ -2,7 +2,7 @@ library(shiny)
 library(ggplot2)
 
 #load colorpalette & styling for plots
-source("C:/Users/asasiad1/surfdrive/rprojects/stat-teaching-apps/plottheme/styling.R")
+source("../plottheme/styling.R",local = TRUE)
 
 shinyServer(function(input, output) {
     #Handy candy variables

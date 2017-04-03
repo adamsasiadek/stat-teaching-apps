@@ -6,8 +6,7 @@ library(RColorBrewer)
 shinyServer(function(input, output) {
    
   #load standard colors
-  brewercolors <- brewer.pal( 5, name =  "Spectral")
-  names(brewercolors) <- c("Red", "Orange", "Yellow", "Green", "Blue")
+  source("../plottheme/styling.R",local = TRUE)
   
   #Generate data for plotting
   df <- data.frame(x = seq(0, 6, by = 0.01),
@@ -51,6 +50,7 @@ shinyServer(function(input, output) {
                     args = list(mean = 2.8, sd = 0.6)) + ylab("Probability density") +
       xlab("") + 
       ggtitle("Sampling Distribution") +
+      theme_classic() +
       theme(plot.title = element_text(hjust = 0.5)) +
     geom_label(
         data = data.frame(x = 0.8, y = 0.6),

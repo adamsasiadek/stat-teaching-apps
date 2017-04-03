@@ -4,7 +4,7 @@ library(RColorBrewer)
 library(scales)
 
 #Load general plot theme and colors for color brewer
-source("C:/Users/asasiad1/surfdrive/rprojects/stat-teaching-apps/plottheme/styling.R")
+source("../plottheme/styling.R",local = TRUE)
 
 #Function that returns coordinates of dots, so that they stack nicely
 #on top of each other. 
