@@ -21,17 +21,17 @@ shinyServer(function(input, output) {
     hist = as.numeric()
   )
   #Make a red and yellow population
-  population <- data.frame(red = rnorm(N, redmean, redsd),
-                           yellow = rnorm(N, yellowmean, yellowsd))
+  population <- data.frame(red = rnorm(n = N, mean = redmean, sd =redsd),
+                           yellow = rnorm(n = N, mean = yellowmean,sd = yellowsd))
     #Smallsamplebuttonpress
     observeEvent(input$smallsamplebutton,{
-               samples$lastsamplered <<- sample(population$red,
-                                                 size = n,
-                                                 replace = TRUE
+               samples$lastsamplered <<- rnorm(n = n, 
+                                                 mean = redmean,
+                                                 sd = redsd
                                                  )
-               samples$lastsampleyellow <<- sample(population$yellow,
-                                                 size = n,
-                                                 replace = TRUE
+               samples$lastsampleyellow <<- rnorm(n = n,
+                                                 mean =yellowmean,
+                                                 sd = yellowsd
                                                     )
                meantemp <- mean(samples$lastsamplered) - mean(samples$lastsampleyellow)
                samples$hist <<- c(samples$hist,meantemp)
@@ -39,13 +39,14 @@ shinyServer(function(input, output) {
                )
    #Largesamplebuttonpress
    observeEvent(input$largesamplebutton,{
-     largesamplered <- replicate(sample(population$red,
-                                        size = n,
-                                        replace = TRUE),n = 1000)
-     largesampleyellow <- replicate(sample(population$yellow,
-                                          size = n,
-                                          replace = TRUE),n = 1000)
-      
+     largesamplered <- replicate(rnorm(n = n, 
+                                       mean = redmean,
+                                       sd = redsd
+                                       ),n = 1000)
+     largesampleyellow <- replicate(rnorm(n = n,
+                                          mean =yellowmean,
+                                          sd = yellowsd
+                                          ),n = 1000)
       r <- apply(largesamplered,MARGIN = 2, mean) 
       y <-apply(largesampleyellow,MARGIN = 2, mean)
       
