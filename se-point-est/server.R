@@ -97,7 +97,8 @@ shinyServer(function(input, output) {
       theme_general() +
       #Adjusting legend
       theme(legend.position = "top",
-            legend.spacing = unit(.1,"cm"))
+            legend.margin = unit(.1,"cm"),
+            legend.text = element_text(size = 9))
     })
   #PLOT OF SAMPLING DISTRIBUTION
   output$sampdistplot <- renderPlot({
@@ -181,6 +182,8 @@ shinyServer(function(input, output) {
       #Legend position adjustment
       guides(linetype = guide_legend(nrow = 2,reverse = TRUE)) + 
       theme(legend.position = "top",
-            legend.margin = unit(0,"cm"))
+            legend.margin = unit(0,"cm"),
+            legend.direction = "horizontal",
+            legend.text = element_text(size = 8))
   })
 })
