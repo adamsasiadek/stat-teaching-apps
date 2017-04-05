@@ -15,7 +15,7 @@ shinyUI(fluidPage(verticalLayout(
                         label = "Average sample candy weight",
                         min = 0,
                         max = 6,
-                        value = c(2,3),
+                        value = c(2,2.8),
                         step = 0.01,
                         width = 330
                         )
