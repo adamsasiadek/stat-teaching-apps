@@ -13,11 +13,11 @@ shinyServer(function(input, output) {
   output$probtable <- renderDataTable(server = FALSE,{
     
     #Generate probabilities of drawing # of yellow candy in sample of 10.  
-    df <- data.frame("Number.of.Yellow.candy" = 0:10,
+    df <- data.frame(n_yellow = 0:10,
                      Probability = round(dbinom(0:10,10,input$probslider),3))
     
     #Prepare container for table, important bc of totals row in footer! 
-    sketch <- htmltools::withTags(table(tableHeader(df),
+    sketch <- htmltools::withTags(table(tableHeader(c("Yellow candies in a sample", "Probability")),
                                         tableFooter(c("Total", "1"))
                                         )
                                   )
