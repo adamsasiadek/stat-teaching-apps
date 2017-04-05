@@ -11,7 +11,7 @@ shinyServer(function(input, output) {
   N <- 10 #Sample size
   reps <- 100 #Repetitions of samples
   mean <- 2.8 # Population mean
-  sd <- 2 #Population sd
+  sd <- 1 #Population sd
   se <- sd/sqrt(N)
   
   #container for samples
@@ -48,7 +48,7 @@ shinyServer(function(input, output) {
       )
     #data frame
     df <- data.frame(cweight = samples$lastsample)
-    
+  
     #PLOT
     ggplot(df,aes(x = cweight)) +
       #Dotplot
@@ -165,7 +165,7 @@ shinyServer(function(input, output) {
                    size = 1,
                    arrow = arrow(length = unit(.2,"cm"))) +
       #Zoom level
-      coord_cartesian(xlim = c(0,6)) + 
+      coord_cartesian(xlim = c(1,5)) + 
       #Tickmarks
       scale_x_continuous(breaks = seq(0,6,by = .5)) + 
       #Legend definitions
