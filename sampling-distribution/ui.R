@@ -11,7 +11,7 @@ shinyUI(fluidPage(verticalLayout(
     
     plotOutput("countplot", width = fig.width, height = fig.height + 70),
     
-    "Yellow candy in last sample:", strong(textOutput("lastsampletext", inline = TRUE)),
+    "Yellow candies in last sample:", strong(textOutput("lastsampletext", inline = TRUE)),
     
     plotOutput("samplingstatisticplot", width = fig.width, height = fig.height)
     

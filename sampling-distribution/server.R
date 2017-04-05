@@ -30,7 +30,7 @@ shinyServer(function(input, output) {
       ) +
       scale_x_discrete(name = "Candy" , breaks = candy$colornames) +
       scale_fill_manual(values = brewercolors) +
-      ggtitle("Candy proportions in Population") +
+      ggtitle("Candy proportions in the population") +
       theme_general() + 
       theme(plot.title = element_text(hjust = 0.5),
             legend.position = "none")
