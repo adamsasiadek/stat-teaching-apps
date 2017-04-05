@@ -2,7 +2,27 @@ library(shiny)
 fig.width = 600
 fig.height = 300
 
+##This function sets the ticks of the standard error slider
+##to be only possible values! 
+##The output of the slider changes from the usual shiny behaviour 
+##it outputs the values 0 to 29 for the positions of the slider. 
+JScode <-
+  "$(function() {
+setTimeout(function(){
+var vals = [.5];
+var ntop = 30;
+var nbot = 2;
+for (i = nbot; i <= ntop; i++) {
+var val = 0.5/Math.sqrt(i);
+val = parseFloat(val.toFixed(3));
+vals.push(val);
+}
+$('#seslider').data('ionRangeSlider').update({'values':vals})
+}, 5)})"
+
+
 shinyUI(fluidPage(
+  tags$head(tags$script(HTML(JScode))),
   verticalLayout(
     fluidRow(align = "center",
              plotOutput("mainplot",
@@ -29,13 +49,13 @@ shinyUI(fluidPage(
                                     step = 1,
                                     round = FALSE
                                     ),
+                        
                         sliderInput("seslider",
                                     label = "Standard error",
-                                    value = .5/sqrt(25),
-                                    min = .09,
-                                    max = .5,
-                                    step = .001,
-                                    round = -2
+                                    value = 24,
+                                    min = 0,
+                                    max = 29,
+                                    round = -3
                                     )
                        )
              )

@@ -5,30 +5,30 @@ shinyServer(function(input, output,session) {
 
   source("../plottheme/styling.R", local = TRUE)
   
-  mean <- 2.8
-  sd <- 0.5
+  mean <- 2.8 #Population mean
+  sd <- 0.5 #Population sd
+  nmax = 30 # Maximal n value
+  nmin = 1 # Minimal n value
+  
   ###### CONNECTION BETWEEN BOTH SLIDERS#########
+  
   #If nslider moves, change seslider
   observeEvent(input$nslider,{
-        invalidateLater(50, session)
         updateSliderInput(session, inputId = "seslider",
-                          value = sd/sqrt(input$nslider),
-                          step = NULL
+                          value = input$nslider - 1
                           )
   })
+  
   #If seslider moves, change nslider
   observeEvent(input$seslider,{
-    invalidateLater(50, session)
     updateSliderInput(session,
                       inputId = "nslider",
-                      value = (sd/input$seslider)^2,
-                      step = NULL
+                      value = input$seslider + 1
                      )
   })
-  
-  ####### MAIN PLOT #############################
+
+  #######################   MAIN PLOT #############################
     output$mainplot <- renderPlot({
-    
       #Validations
       validate(
         need(
@@ -37,24 +37,29 @@ shinyServer(function(input, output,session) {
         )
       )
       
-      tailarea <- (1 - input$cfintslider / 100) / 2 #calculates value for qnorm
-    
+      tailarea <-
+        (1 - input$cfintslider / 100) / 2 #calculates value for qnorm
+      
+      
+      posvalues <- sd / sqrt(nmin:nmax) #possible values standard error can take
+      stderr <- posvalues[input$seslider + 1] #stderror
+      
 
-   
-
     
-    error <- qnorm(1 - tailarea) * input$seslider #Distance for interval  
-    left <- mean - error #Left confidence interval border
-    right <- mean + error #Right confidence interval border
-    
+    dist <- qnorm(1 - tailarea) * stderr #Distance for interval  
+    left <- mean - dist #Left confidence interval border
+    right <- mean + dist #Right confidence interval border
+    ##### PLOT ######
     ggplot(data.frame(x = c(0,6)), aes(x = x)) + 
+      #Normal distribution
       stat_function(fun = dnorm, args = list(mean = mean, sd = sd)) + 
+
       #X scale definition and generation of z score scale on top
-      scale_x_continuous(breaks = seq(0,6,by = .5),
+      scale_x_continuous(breaks = seq(0,6,by = .5),limits = c(1,4.6),
+                        
                          sec.axis = sec_axis((~./sd - mean/sd),
                                               breaks = -4:4,
-                                              name = "zscore")
-                         ) +
+                                              name = "Standard error (z)")) +
       #Left vline
       geom_vline(aes(xintercept = left,
                      linetype = "left margin")) +
@@ -64,7 +69,7 @@ shinyServer(function(input, output,session) {
       #Mean vline
       geom_vline(aes(xintercept = mean,
                      linetype = "mean")) + 
-      #Defining types of lines
+      #Defining legend of lines
       scale_linetype_manual(name = "",
                             values = c("left margin" = "dashed",
                                        "right margin" = "dashed",
@@ -105,8 +110,12 @@ shinyServer(function(input, output,session) {
       #Specifing legend for colour/arrow
       scale_colour_manual(guide = guide_legend(title = ""),
                           values = c("Interval estimate" = unname(brewercolors["Red"]))) + 
+      ggtitle("Sampling distribution") + 
+      ylab("Density") +
+      xlab("Candy weight") +
       #general theme
-      theme_general()
+      theme_general() +
+      theme(legend.position = "bottom")
   })
 
 })
