@@ -63,7 +63,7 @@ shinyServer(function(input, output) {
   output$sampleplot <- renderPlot({
     
     #sample n form population?
-    smple <- data.frame(x = rnorm(n, input$sampleslider, sdpop))
+    smple <- data.frame(x = rnorm(n, input$populationslider, sdpop))
     
     ggplot(data = smple, aes(x = x)) +
       geom_histogram() +

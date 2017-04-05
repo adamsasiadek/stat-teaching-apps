@@ -7,17 +7,6 @@ shinyUI(fluidPage(
   verticalLayout(
     fluidRow(
       align = "center",
-      sliderInput(
-        "populationslider",
-        label = "Population Mean",
-        min = 0,
-        max = 6,
-        step = 0.1,
-        value = 2
-      )
-    ),
-    fluidRow(
-      align = "center",
       plotOutput("populationplot", width = fig.width, height = fig.height)
     ),
     
@@ -30,12 +19,11 @@ shinyUI(fluidPage(
       align = "center",
       plotOutput("sampleplot", width = fig.width, height = fig.height)
     ),
-    
     fluidRow(
       align = "center",
       sliderInput(
-        "sampleslider",
-        label = "Sample Mean",
+        "populationslider",
+        label = "Population Mean",
         min = 0,
         max = 6,
         step = 0.1,
