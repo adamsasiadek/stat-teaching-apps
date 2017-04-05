@@ -173,8 +173,8 @@ shinyServer(function(input, output) {
       ggtitle("Proportions of yellow candies in 1000 bts samples") +
       scale_x_continuous(name = "Proportion of yellow candies",
                          limits = c(-0.2,1))+
-      scale_y_continuous(name = "Density",
-                         limits = c(0,1.1),
+      scale_y_continuous(name = "Probability",
+                         limits = c(0,0.5),
                          breaks = seq(0,1,by = 0.2))+
       theme_general()
   })
