@@ -52,12 +52,12 @@ shinyServer(function(input, output,session) {
     ##### PLOT ######
     ggplot(data.frame(x = c(0,6)), aes(x = x)) + 
       #Normal distribution
-      stat_function(fun = dnorm, args = list(mean = mean, sd = sd)) + 
+      stat_function(fun = dnorm, args = list(mean = mean, sd = stderr)) + 
 
       #X scale definition and generation of z score scale on top
-      scale_x_continuous(breaks = seq(0,6,by = .5),limits = c(1,4.6),
+      scale_x_continuous(breaks = seq(0,6,by = .1),limits = c(2.4,3.2),
                         
-                         sec.axis = sec_axis((~./sd - mean/sd),
+                         sec.axis = sec_axis((~./stderr - mean/stderr),
                                               breaks = -4:4,
                                               name = "Standard error (z)")) +
       #Left vline
