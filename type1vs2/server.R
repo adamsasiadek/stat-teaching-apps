@@ -1,18 +1,25 @@
 library(shiny)
 library(maps)
-
+library(RColorBrewer)
 shinyServer(function(input, output) {
   params <- reactive({
     alpha <- input$alpha
     return(list(alpha=alpha))
   })
   
+  source("../plottheme/styling.R", local = TRUE)
   output$plot <- renderPlot({
     params <- params()
     alpha <- params$alpha
     
     cb <- c("#000000",  "#999999",  "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
     names(cb) <- c("black", "grey", "orange", "turquoise", "green", "yellow", "blue", "red", "pink")
+    #Adding our color scheme. 
+    cb["red"] <- brewercolors["Red"]
+    cb["orange"] <- brewercolors["Orange"]
+    cb["yellow"] <- brewercolors["Yellow"]
+    cb["green"] <- brewercolors["Green"]
+    cb["blue"] <- brewercolors["Blue"]
     par(mfrow=c(2,1), tck=-0.03, mar=c(5, 3.2, 4, 1), mgp=c(3, 0.5, 0), xaxs="i", yaxs="i", cex=1.2)
     x=seq(-5, 5, length=1000)
     mu0=0
@@ -32,11 +39,11 @@ shinyServer(function(input, output) {
          lab=c(seq(-5, -1), expression(t[0]==0), expression(t==1.5), seq(3, 5)))
     x.type1=c(crit1_h0, seq(crit1_h0, 15, 0.01), 15)
     y.type1=c(0, dnorm(seq(crit1_h0, 15, 0.01), mean=mu0, sd = sigma), 0) 
-    polygon(x.type1, y.type1, col=rgb(0.8, 0.4, 0, 0.5), border=NA)
+    polygon(x.type1, y.type1, col=cb["orange"], border=NA)
     
     x.type12=c(-5, seq(-5, crit2_h0, 0.01), crit2_h0)
     y.type12=c(0, dnorm(seq(-5, crit2_h0, 0.01), mean=mu0, sd = sigma), 0) 
-    polygon(x.type12, y.type12, col=rgb(0.8, 0.4, 0, 0.5), border=NA)
+    polygon(x.type12, y.type12, col=cb["orange"], border=NA)
     
     abline(v=crit1_h0, lwd=2, lty=2, col=cb["red"])
     text(x=crit1_h0, y = max(y_h0), labels = expression(t[C]), col=cb["red"], xpd=NA, pos=3, offset = 0.5)
@@ -84,15 +91,15 @@ shinyServer(function(input, output) {
     #text(x=-3.5, y=max(y_hA), expression(paste(H[a], " is true:")), font=2, xpd=NA)    
     x.type1=c(crit1_h0, seq(crit1_h0, 15, 0.01), 15)
     y.type1=c(0, dnorm(seq(crit1_h0, 15, 0.01), mean=muA, sd=sigma), 0) 
-    polygon(x.type1, y.type1, col=rgb(0.8, 0.4, 0, 0.5), border=NA)
+    polygon(x.type1, y.type1, col=cb["orange"], border=NA)
     
     x.type12=c(-4, seq(-4, crit2_h0, 0.01), crit2_h0)
     y.type12=c(0, dnorm(seq(-4, crit2_h0, 0.01), mean=muA, sd=sigma), 0) 
-    polygon(x.type12, y.type12, col=rgb(0.8, 0.4, 0, 0.5), border=NA)
+    polygon(x.type12, y.type12, col=cb["orange"], border=NA)
     
     x.power=c(crit2_h0, seq(crit2_h0, crit1_h0, 0.01), crit1_h0)
     y.power=c(0, dnorm(seq(crit2_h0, crit1_h0, 0.01), mean=muA, sd=sigma), 0)
-    polygon(x.power, y.power, col=rgb(0, 0.45, 0.7, 0.5), border=NA)
+    polygon(x.power, y.power, col=cb["blue"], border=NA)
     
     power1=pnorm(q=crit2_h0, mean=muA, sd=sigma, lower.tail = T)
     power2=pnorm(q=crit1_h0, mean=muA, sd=sigma, lower.tail =F)
