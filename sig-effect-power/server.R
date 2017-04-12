@@ -19,14 +19,14 @@ shinyServer(function(input, output) {
     sample$SE <<- sdpop/sqrt(input$ssizeslider)
   })
   
-  strengthlab <- c("Strong\n2.64",
-                   "Moderate\n2.7",
-                   "Weak\n2.76",
+  strengthlab <- c("Strong\n2.32",
+                   "Moderate\n2.5",
+                   "Weak\n2.68",
                    "H0\n2.8",
-                   "Weak\n2.84",
-                   "Moderate\n2.9",
-                   "Strong\n2.96")
-  ticks <- c(2.64,2.7,2.76,2.8,2.84,2.9,2.96)
+                   "Weak\n2.92",
+                   "Moderate\n3.1",
+                   "Strong\n3.28")
+  ticks <- c(2.32,2.5,2.68,2.8,2.92,3.1,3.28)
   
   
   output$mainplot <- renderPlot({
@@ -64,12 +64,10 @@ shinyServer(function(input, output) {
       # Scale x breaks definition
       scale_x_continuous(breaks = ticks, labels = strengthlab) + 
       #Defining x axis zoom
-      coord_cartesian(xlim = c(mean - 4*SE,mean + 4*SE)) +
+      coord_cartesian(xlim = c(mean - sdpop,mean + 1.5*sdpop)) +
       #Title and labels for axes
       ggtitle("Sampling distribution") + 
       theme_general() + 
-      theme(axis.text.x = element_text(angle = 45,
-                                       hjust = 1,
-                                       size = 8))
+      theme(axis.text.x = element_text(size = 9))
   })
 })

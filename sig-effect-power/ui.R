@@ -13,7 +13,7 @@ shinyUI(fluidPage(
               sliderInput("savslider",
                           label = "Population average",
                           min = 2.8,
-                          max = 3.0,
+                          max = 3.2,
                           value = 2.9,
                           step = .1),
               sliderInput("ssizeslider",
