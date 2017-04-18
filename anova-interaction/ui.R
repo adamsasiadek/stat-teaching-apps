@@ -46,7 +46,8 @@ shinyUI(
                            value = 4.5,
                            min = 0,
                            max = 10,
-                           width = 50
+                           width = 60,
+                           step = .1
               )
             ),
             tags$td(
@@ -55,7 +56,8 @@ shinyUI(
                            value = 6.5,
                            min = 0,
                            max = 10,
-                           width = 50
+                           width = 60,
+                           step = .1
               )            
             ),
             tags$td(
@@ -64,7 +66,8 @@ shinyUI(
                            value = 8.5,
                            min = 0,
                            max = 10,
-                           width = 50
+                           width = 60,
+                           step = .1
               )            
             ),
             tags$td(
@@ -81,7 +84,8 @@ shinyUI(
                            value = 3,
                            min = 0,
                            max = 10,
-                           width = 50
+                           width = 60,
+                           step = .1
               )             
             ),
             tags$td(
@@ -90,7 +94,8 @@ shinyUI(
                            value = 5,
                            min = 0,
                            max = 10,
-                           width = 50
+                           width = 60,
+                           step = .1
               )
             ),
             tags$td(
@@ -99,7 +104,8 @@ shinyUI(
                            value = 7,
                            min = 0,
                            max = 10,
-                           width = 50
+                           width = 60,
+                           step = .1
               )
             ),
             tags$td(
