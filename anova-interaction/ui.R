@@ -1,6 +1,6 @@
 library(shiny)
 fig.width = 400
-fig.height = 150
+fig.height = 300
 shinyUI(
   fluidPage(
     #CSS Styling for table vjust to be in middle
@@ -71,7 +71,7 @@ shinyUI(
               )            
             ),
             tags$td(
-              "what"  
+              textOutput("totwomtext")  
             )
           ),
           tags$tr(
@@ -109,16 +109,22 @@ shinyUI(
               )
             ),
             tags$td(
-              "Test"
+              textOutput("totmentext") 
             )
           ),
           tags$tr(
             tags$td(
               strong("Total:")
             ),
-            tags$td(),
-            tags$td(),
-            tags$td(),
+            tags$td(
+              textOutput("totnobtext")
+            ),
+            tags$td(
+              textOutput("totclotext")
+            ),
+            tags$td(
+              textOutput("totjoltext")
+            ),
             tags$td()
           ) 
         )
