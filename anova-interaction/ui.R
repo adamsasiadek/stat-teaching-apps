@@ -129,7 +129,7 @@ shinyUI(
             tags$td(
               textOutput("totjoltext")
             ),
-            tags$td()
+            tags$td(textOutput("tottext"))
           ) 
         )
       )
