@@ -23,6 +23,10 @@ shinyUI(
                    width = fig.width,
                    height = fig.height)
       ),
+      fluidRow(align = "center",
+        withMathJax(),
+        uiOutput("fvaltext")
+      ),
       fluidRow(
         align = "center",
         
