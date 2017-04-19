@@ -24,6 +24,7 @@ shinyUI(
                    height = fig.height)
       ),
       fluidRow(align = "center",
+               div(strong("Test of interaction effect:")),
         withMathJax(),
         uiOutput("fvaltext")
       ),

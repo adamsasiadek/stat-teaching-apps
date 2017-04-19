@@ -122,21 +122,78 @@ shinyServer(function(input, output) {
   
   #Output for total of nobody
   output$totnobtext <- renderText(
-    as.character(input$wonobody + input$mennobody))
+    as.character(
+      round(
+        mean(
+          c(input$wonobody, input$mennobody)
+        ),
+        digits = 3
+      )
+    )
+  )
   #Output for total clooney
   output$totclotext <- renderText(
-    as.character(input$woclooney + input$menclooney))
+    as.character(
+      round(
+        mean(
+          c(input$woclooney, input$menclooney)
+        ),
+        digits = 3
+      )
+    )
+  )
   #Output for total jolie
   output$totjoltext <- renderText(
-    as.character(input$wojolie + input$menjolie))
+    as.character(
+      round(
+        mean(
+          c(
+            input$wojolie, input$menjolie)
+        ),
+        digits = 3
+      )
+    )
+  )
   #Output for total men
   output$totwomtext <- renderText(
-    as.character(input$wonobody + input$woclooney + input$wojolie))
+    as.character(
+      round(
+        mean(c(input$wonobody,
+               input$woclooney,
+               input$wojolie)
+        ),
+        digits = 3
+      )
+    )
+  )
   #Output for total men
   output$totmentext <- renderText(
-    as.character(input$mennobody + input$menclooney + input$menjolie))
+    as.character(
+      round(
+        mean(
+          c(input$mennobody,
+            input$menclooney,
+            input$menjolie)
+        ),
+        digits = 3
+        
+      )  
+    )
+  )
   #Output for total of all cells
   output$tottext <- renderText(
-    as.character(input$mennobody + input$menclooney + input$menjolie +
-                 input$wonobody + input$woclooney + input$wojolie))
+    as.character(
+      round(
+        mean(
+          c(input$mennobody,
+            input$menclooney,
+            input$menjolie,
+            input$wonobody,
+            input$woclooney,
+            input$wojolie)
+        ),
+        digits = 3
+      )
+    )
+  )
 })
