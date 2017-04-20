@@ -1,7 +1,10 @@
 library(shiny)
+library(ggplot2)
+library(RColorBrewer)
 
 shinyServer(function(input, output) {
-
+  #Load styling files for plots
+  source("../plottheme/styling.R", local = TRUE)
 
   n.sim <- 1000
   
@@ -30,19 +33,26 @@ shinyServer(function(input, output) {
   output$t.stats <- renderPlot({
     
     sample <- draw.sample()
+    df_t <- data.frame(x = sample$t.stats)
     plot.title <- sprintf("Power: %.2f; Proportion rejected nulls: %.2f", sample$power, sample$sig.rate)
-    hist(sample$t.stats, 25, col="dodgerblue", main=plot.title, xlab="t-values of 1,000 samples")
-    abline(v=qt(0.05, sample$df, lower.tail=FALSE), lwd=5)
+    ggplot(df_t, aes(x = x)) +
+      geom_histogram(bins = 25, color = "black", fill = brewercolors[["Blue"]]) +
+      theme_general() +
+      labs(title = plot.title, x = "t-values of 1,000 samples", y = "Frequency") +
+      geom_vline(xintercept = qt(0.05, sample$df, lower.tail=FALSE), size = 2)
     
   })
   
   output$p.values <- renderPlot({
     
     sample <- draw.sample()  
-    bins <- seq(0, 1, length.out=40)
-    hist(sample$p.values, bins, col="tomato", main=NULL, xlab="p-values of 1,000 samples")
-    abline(v=0.05, lwd=5)
-           
+    df_p <- data.frame(x = sample$p.values)
+    ggplot(df_p, aes(x = x)) +
+      geom_histogram(bins = 40, color = "black", fill = brewercolors[["Red"]]) +
+      theme_general() +
+      labs(x = "p-values of 1,000 samples", y = "Frequency") +
+      geom_vline(xintercept = 0.05, size = 2)
+    
   })
   
 })
