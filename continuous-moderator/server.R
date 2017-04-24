@@ -25,7 +25,7 @@ shinyServer(function(input, output) {
   }
   
   ##OUTPUT OF HEADER 
-  output$headtext <-renderText(paste("Relationship between Exposure & Attitude with Contact set to",
+  output$headtext <-renderText(paste("Attitude predicted from Exposure for Contact set to",
                                              input$modvalueslider))
   slidertemp <- numeric()
   ##MAIN PLOT##
@@ -58,16 +58,18 @@ shinyServer(function(input, output) {
         alpha = 1,
         size = .9,
         aes(color = "Current line")) +
-      scale_fill_gradient(name = "Influence on Current line",low = "white", high = unname(brewercolors["Blue"])) + 
+      scale_fill_gradient(name = "Relevance for current line",low = "white", high = unname(brewercolors["Blue"])) + 
       guides(fill = guide_colorbar(title.position = "top",
                                    barwidth = 9,
-                                   order = 1
+                                   order = 1,
+                                   label = FALSE,
+                                   ticks = FALSE
                                   )) +
       scale_color_manual(name = "", 
                          values = c("Previous line" = "#A9A9A9",
                                     "Current line" = unname(brewercolors["Red"])
                                     )) + 
-      coord_cartesian(xlim = c(0, 6), ylim = c(0, 5)) +
+      coord_cartesian(xlim = c(0, 10), ylim = c(0, 5)) +
       ylab("Attitude") +
       xlab("Exposure") +
       theme_general() + 

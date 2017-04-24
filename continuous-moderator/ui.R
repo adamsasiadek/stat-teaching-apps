@@ -12,7 +12,7 @@ shinyUI(fluidPage(verticalLayout(
            ),
   
   fluidRow(align = "center",
-           div(strong("Formula:")),
+           div(strong("Equation:")),
            withMathJax(helpText(
              paste("$$\\color{black}{attitude = \\beta_0 + (\\beta_1 + \\beta_3 * }\\color{blue}{",
                    "contact",
