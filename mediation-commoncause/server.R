@@ -1,8 +1,8 @@
 library(shiny)
-library(diagram)
-
+library(ggplot2)
+library(grid)
 shinyServer(function(input, output, session) {
-  
+  source("../plottheme/styling.R", local = TRUE)
   #Set slider inputs to random drawn values###
   updateSliderInput(session,
                     "agepolslider",
@@ -18,11 +18,7 @@ shinyServer(function(input, output, session) {
   )
   
   #Function to calculate line and arrow widths
-  lwdfunc <- function(sbeta){
-    if(sbeta == 0) return(NULL)
-    if(abs(sbeta) > 1) return(10)
-    else(return(abs(sbeta) * 10))
-  }
+
   ###MAIN PLOT###
   output$mainplot <- renderPlot({
     
@@ -38,59 +34,58 @@ shinyServer(function(input, output, session) {
     b_MO <- round((r_MO - r_PM*r_PO)/(1 - r_PM^2), digits = 2)
     b_indirect <- round(b_PM * b_MO, digits = 2)
     
-    ##Set up plotting environment
-    par(mar = c(1,1,1,1))
-    #Open new canvas to plot to
-    openplotmat()
-    #Labels for nodes
-    labels <- c("(Mediator)\nPol. interest","Age\n(Predictor)", "Readingtime\n(Outcome)")
-    #Positions for nodes (canvas is 1 by 1)
-    elpos<-matrix(data =c(.5,.85,.15,.15,.85,.15), #Space more fully used
-                  nrow = 3, ncol = 2,
-                  byrow = TRUE)
-    #Curved arrow from Predictor to Outcome
-    arcind <- curvedarrow(from =elpos[2,] + c(0.03, 0),
-                         to=elpos[3,] + c(-0.03, 0),
-                         curve=-0.5,
-                         lty=2,
-                         lcol="red",
-                         dr = .5,
-                         lwd = lwdfunc(b_indirect),
-                         arr.lwd = lwdfunc(b_indirect)
-                         )
-    #Straightarrow from Predictor to Mediator
-    arrPM <- straightarrow(from = elpos[2,] + c(0, 0.08),
-                           to = elpos[1,] + c(-0.05, -0.08),
-                           lty=1,
-                           lcol=1,
-                           arr.pos=.5,
-                           lwd = lwdfunc(b_PM),
-                           arr.lwd = lwdfunc(b_PM)
-                           )
-    #Straightarrow from Predictor to Outcome
-    arrPO <- straightarrow(from = elpos[2,] + c(0.12, 0),
-                            to = elpos[3,] + c(-0.12, 0),
-                           lty=1,
-                           lcol=1,
-                           arr.pos=.5,
-                           lwd = lwdfunc(b_PO),
-                           arr.lwd = lwdfunc(b_PO)
-                           )
-    #Straightarrow from Mediator to Outcome
-    arrMO <- straightarrow(from = elpos[1,] + c(0.05, -0.08),
-                           to = elpos[3,] + c(0, 0.08),
-                           lty=1,
-                           lcol=1,
-                           arr.pos=.5,
-                           lwd = lwdfunc(b_MO),
-                           arr.lwd = lwdfunc(b_MO)
-                           )
-    #Text next to arrows
-    text(arrPM[1] - .1, arrPM[2], bquote(beta[PM] == .(b_PM)))
-    text(arrPO[1], arrPO[2] -.05, bquote(beta[PO] == .(b_PO)))
-    text(arrMO[1] + .12, arrMO[2], bquote(beta[MO] == .(b_MO)))
-    text(arcind[1], arcind[2] + .05, bquote(beta[indirect] == .(b_indirect)), col = "red")
-    #Draw labels
-    for (i in 1:3) textempty(elpos[i,],lab=labels[i],cex = 1.3)
+    lwdfunc <- function(sbeta){
+      if(sbeta == 0) return(0)
+      if(abs(sbeta) >= 1.5) return(return(0.3 * abs(1.5) * 10 + 0.01 * abs(sbeta) * 10))
+      else(return(0.3 * abs(sbeta) * 10))
+    }
+    labels <- c("Pol. interest\n(Mediator)","Age\n(Predictor)", "Reading time\n(Outcome)")
+
+    elpos <- data.frame(x = c(.5,.15,.85), y = c(.85,.15,.15))
+    ggplot(elpos, aes(x = x, y = y)) +
+      geom_point() + 
+      #Arrow Age to Pol interest
+      geom_segment(aes(x = .15, y = .21, xend = .4, yend = .78),
+                   arrow = arrow(length = unit(0.03, "npc")),
+                   size = lwdfunc(b_PM)) + 
+      #Arrow Age to Reading
+      geom_segment(aes(x = x[2], y= y[2], xend = .75, yend = y[3]),
+                       arrow = arrow(length = unit(0.03, "npc")),
+                   size = lwdfunc(b_PO)) + 
+      #Arrow Pol interest to Reading
+      geom_segment(aes(x = .6, y= .78, xend = .85, yend = .22),
+                       arrow = arrow(length = unit(0.03, "npc")),
+                   size = lwdfunc(b_MO)) + 
+      #Curve Age to Reading
+      geom_curve(aes(x = .15, y= .21, xend = .78, yend = .26),
+                 curvature = -0.5,
+                 linetype = "dashed",
+                 color = "red",
+                 size = lwdfunc(b_indirect)) +
+      #Arrowhead of curve
+      geom_curve(aes(x = .77, y= .24, xend = .80, yend = .23),
+                 arrow = arrow(length = unit(0.04, "npc"),type = "open"),
+                 curvature = -0.5,
+                 linetype = "solid",
+                 color = "red",
+                 size = lwdfunc(b_indirect)) + 
+      geom_label(aes(x = x, y = y), label = labels, colour = "black", fill = "white") +
+      annotate("text", x = .15, y = .5,
+               label = deparse(bquote(beta[PM] == .(b_PM))),
+               parse = TRUE) +
+      annotate("text", x = .5, y = .1,
+               label = deparse(bquote(beta[PO] == .(b_PO))),
+               parse = TRUE) +
+      annotate("text", x = .85, y = .5,
+               label = deparse(bquote(beta[MO] == .(b_MO))),
+               parse = TRUE) +
+      annotate("text", x = .5, y = .5,
+               label = deparse(bquote(beta[indirect] == .(b_indirect))),
+               parse = TRUE,
+               colour = "red") +
+      coord_cartesian(xlim = c(0,1), ylim = c(0,1)) +
+     theme_general()
+
+
   })
 })
