@@ -1,8 +1,9 @@
 library(shiny)
 library(diagram)
 
-shinyServer(function(input, output,session) {
+shinyServer(function(input, output, session) {
   
+  #Set slider inputs to random drawn values###
   updateSliderInput(session,
                     "agepolslider",
                     value = round(runif(n = 1, min = -.7, max = .7), digits = 2)
@@ -16,7 +17,15 @@ shinyServer(function(input, output,session) {
                     value = round(runif(n = 1, min = -.7, max = .7), digits = 2)
   )
   
+  #Function to calculate line and arrow widths
+  lwdfunc <- function(sbeta){
+    if(sbeta == 0) return(NULL)
+    if(abs(sbeta) > 1) return(10)
+    else(return(abs(sbeta) * 10))
+  }
+  ###MAIN PLOT###
   output$mainplot <- renderPlot({
+    
     #correlation between Predictor and mediator.
     r_PM <- input$agepolslider
     #correlation between mediator and Outcome.
@@ -29,46 +38,59 @@ shinyServer(function(input, output,session) {
     b_MO <- round((r_MO - r_PM*r_PO)/(1 - r_PM^2), digits = 2)
     b_indirect <- round(b_PM * b_MO, digits = 2)
     
+    ##Set up plotting environment
     par(mar = c(1,1,1,1))
+    #Open new canvas to plot to
     openplotmat()
-    labels <- c("Pol. interest","Age", "Readingtime")
+    #Labels for nodes
+    labels <- c("(Mediator)\nPol. interest","Age\n(Predictor)", "Readingtime\n(Outcome)")
+    #Positions for nodes (canvas is 1 by 1)
     elpos<-matrix(data =c(.5,.75,.25,.25,.75,.25),
                   nrow = 3, ncol = 2,
                   byrow = TRUE)
-    arc23 <- curvedarrow(from =elpos[2,],
+    #Curved arrow from Predictor to Outcome
+    arcind <- curvedarrow(from =elpos[2,],
                          to=elpos[3,],
-                         curve=-0.2,
+                         curve=-0.3,
                          lty=2,
-                         lcol="red"
+                         lcol="red",
+                         dr = .5,
+                         lwd = lwdfunc(b_indirect),
+                         arr.lwd = lwdfunc(b_indirect)
                          )
-    arr21 <- straightarrow(from = elpos[2,],
+    #Straightarrow from Predictor to Mediator
+    arrPM <- straightarrow(from = elpos[2,],
                            to = elpos[1,],
                            lty=1,
                            lcol=1,
-                           arr.pos=.5
+                           arr.pos=.5,
+                           lwd = lwdfunc(b_PM),
+                           arr.lwd = lwdfunc(b_PM)
                            )
-    arr23 <- straightarrow(from = elpos[2,],
+    #Straightarrow from Predictor to Outcome
+    arrPO <- straightarrow(from = elpos[2,],
                             to = elpos[3,],
-                           lty=1,lcol=1,
-                           arr.pos=.5
+                           lty=1,
+                           lcol=1,
+                           arr.pos=.5,
+                           lwd = lwdfunc(b_PO),
+                           arr.lwd = lwdfunc(b_PO)
                            )
-    arr13 <- straightarrow(from = elpos[1,],
+    #Straightarrow from Mediator to Outcome
+    arrMO <- straightarrow(from = elpos[1,],
                            to = elpos[3,],
                            lty=1,
                            lcol=1,
-                           arr.pos=.5
+                           arr.pos=.5,
+                           lwd = lwdfunc(b_MO),
+                           arr.lwd = lwdfunc(b_MO)
                            )
-    arr23 <- straightarrow(from = elpos[2,],
-                           to = elpos[3,],
-                           lty=1,
-                           lcol=1,
-                           arr.pos=.5
-                           )
-    text(arr21[1] - .06, arr21[2], b_PM)
-    text(arr23[1], arr23[2] -.05, b_PO)
-    text(arr13[1] + .06,arr13[2], r_MO)
-    text(arc23[1],arr23[2] + .15, b_indirect,col = "red")
-    for ( i in 1:3) textempty(elpos[i,],lab=labels[i],cex = 1.3)
-    
+    #Text next to arrows
+    text(arrPM[1] - .1, arrPM[2], bquote(beta[PM] == .(b_PM)))
+    text(arrPO[1], arrPO[2] -.05, bquote(beta[PO] == .(b_PO)))
+    text(arrMO[1] + .12, arrMO[2], bquote(beta[MO] == .(b_MO)))
+    text(arcind[1], arcind[2] + .05, bquote(beta[indirect] == .(b_indirect)), col = "red")
+    #Draw labels
+    for (i in 1:3) textempty(elpos[i,],lab=labels[i],cex = 1.3)
   })
 })
