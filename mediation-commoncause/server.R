@@ -51,7 +51,7 @@ shinyServer(function(input, output, session) {
     #Curved arrow from Predictor to Outcome
     arcind <- curvedarrow(from =elpos[2,] + c(0.03, 0),
                          to=elpos[3,] + c(-0.03, 0),
-                         curve=-0.3,
+                         curve=-0.5,
                          lty=2,
                          lcol="red",
                          dr = .5,
@@ -59,8 +59,8 @@ shinyServer(function(input, output, session) {
                          arr.lwd = lwdfunc(b_indirect)
                          )
     #Straightarrow from Predictor to Mediator
-    arrPM <- straightarrow(from = elpos[2,] + c(0, 0.06),
-                           to = elpos[1,] + c(-0.05, -0.06),
+    arrPM <- straightarrow(from = elpos[2,] + c(0, 0.08),
+                           to = elpos[1,] + c(-0.05, -0.08),
                            lty=1,
                            lcol=1,
                            arr.pos=.5,
@@ -68,8 +68,8 @@ shinyServer(function(input, output, session) {
                            arr.lwd = lwdfunc(b_PM)
                            )
     #Straightarrow from Predictor to Outcome
-    arrPO <- straightarrow(from = elpos[2,] + c(0.15, 0),
-                            to = elpos[3,] + c(-0.15, 0),
+    arrPO <- straightarrow(from = elpos[2,] + c(0.12, 0),
+                            to = elpos[3,] + c(-0.12, 0),
                            lty=1,
                            lcol=1,
                            arr.pos=.5,
@@ -77,8 +77,8 @@ shinyServer(function(input, output, session) {
                            arr.lwd = lwdfunc(b_PO)
                            )
     #Straightarrow from Mediator to Outcome
-    arrMO <- straightarrow(from = elpos[1,] + c(0.05, -0.06),
-                           to = elpos[3,] + c(0, 0.06),
+    arrMO <- straightarrow(from = elpos[1,] + c(0.05, -0.08),
+                           to = elpos[3,] + c(0, 0.08),
                            lty=1,
                            lcol=1,
                            arr.pos=.5,
