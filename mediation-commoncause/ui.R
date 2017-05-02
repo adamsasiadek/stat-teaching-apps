@@ -1,7 +1,8 @@
 library(shiny)
+
 fig.width = 400
 fig.height = 320
-# Define UI for application that draws a histogram
+
 shinyUI(
   fluidPage(
     verticalLayout(
@@ -11,29 +12,29 @@ shinyUI(
                           height = fig.height
                           )
       ),
-    fluidRow(align = "center",
-             sliderInput("agepolslider",
-                         label = "Correlation Age with Pol. interest",
-                         min = -0.9,
-                         max = 0.9,
-                         step = .1,
-                         value = 0
-                         ),
-             sliderInput("agereadslider",
-                         label = "Correlation Age with Readingtime",
-                         min = -0.9,
-                         max = 0.9,
-                         step = .1,
-                         value = 0
-                         ),
-             sliderInput("polreadslider",
-                         label ="Correlation Pol. interest with Readingtime",
-                         min = -0.9,
-                         max = 0.9,
-                         step = .1,
-                         value = 0
-                         )
-             )
+      fluidRow(align = "center",
+               sliderInput("agepolslider",
+                           label = "Correlation Age with Pol. interest",
+                           min = -0.9,
+                           max = 0.9,
+                           step = .1,
+                           value = 0
+                           ),
+               sliderInput("agereadslider",
+                           label = "Correlation Age with Readingtime",
+                           min = -0.9,
+                           max = 0.9,
+                           step = .1,
+                           value = 0
+                           ),
+               sliderInput("polreadslider",
+                           label ="Correlation Pol. interest with Readingtime",
+                           min = -0.9,
+                           max = 0.9,
+                           step = .1,
+                           value = 0
+                           )
+               )
     )
   )
 )
