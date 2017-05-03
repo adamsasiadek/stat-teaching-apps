@@ -53,6 +53,20 @@ shinyServer(function(input, output) {
                     y =  dtshift(left, mean, sd, df) * 1.25),
                 hjust = 1,
                 size = 5) +
+      #t~c~ label right
+      geom_text(label = paste("t[c]", sep = ""),
+                parse = TRUE,
+                aes(x = right * 1.02,
+                    y =  0.9),
+                hjust = 0,
+                size = 5) +
+      #t~c~ label left
+      geom_text(label = paste("t[c]", sep = ""),
+                parse = TRUE,
+                aes(x = left * 0.98,
+                    y =  0.9),
+                hjust = 1,
+                size = 5) +
       #Mean vline
       geom_vline(aes(xintercept = mean,
                      linetype = "Mean")) +
@@ -66,11 +80,11 @@ shinyServer(function(input, output) {
       scale_linetype_manual(name = "",
                             values = c("Mean" = "solid", "Threshold" = "dashed")) +
       #Scaling and double axis definitions
-      coord_cartesian(xlim = c(3,8)) +
+      coord_cartesian(xlim = c(3,8), ylim = c(0,1)) +
       scale_x_continuous(breaks = 0:8,
                          sec.axis = sec_axis(~. - 5.5,
                                              breaks = seq(-5,5,by = .5),
-                                             name = "T value")) + 
+                                             name = "t value")) + 
       #Axis labels and theme                                       
       xlab("Average media literacy") + 
       ylab("Density") + 
