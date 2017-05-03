@@ -16,7 +16,7 @@ shinyUI(
                   label = "Sample size",
                   value = 25,
                   min = 5,
-                  max = 100,
+                  max = 50,
                   step = 5
                 )
                )
