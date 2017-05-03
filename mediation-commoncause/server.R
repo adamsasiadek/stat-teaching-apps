@@ -84,8 +84,9 @@ shinyServer(function(input, output, session) {
                parse = TRUE,
                colour = "red") +
       coord_cartesian(xlim = c(0,1), ylim = c(0,1)) +
-     theme_general()
-
+      theme_general() +
+      scale_x_continuous(name = "", breaks = NULL) +
+      scale_y_continuous(name = "", breaks = NULL)
 
   })
 })
