@@ -86,7 +86,8 @@ shinyServer(function(input, output) {
       scale_x_continuous(breaks = seq(3.5, 7.5, by = .5),
                          sec.axis = sec_axis(~ (. - mean) / se,
                                              breaks = c(-10, -5, -3, -2, -1, 0 , 1, 2, 3, 5, 10),
-                                             name = "t value")) + 
+                                             name = "t value")) +
+      scale_y_continuous(breaks = NULL) + 
       #Axis labels and theme                                       
       xlab("Average media literacy") + 
       ylab("Density") + 
