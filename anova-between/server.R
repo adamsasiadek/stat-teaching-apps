@@ -98,7 +98,8 @@ shinyServer(function(input, output) {
                    yend = dfarrows$yend.tot,
                    linetype = "dotted",
                    arrow = arrow(length = unit(2,"mm"),
-                                 ends = "both")
+                                 ends = "both",
+                                 type = "closed")
                    ) +
       #Arrows from grand mean to group mean
       geom_segment(x = dfarrows$x.grpgr,
@@ -107,7 +108,8 @@ shinyServer(function(input, output) {
                    yend = dfarrows$yend.grpgr,
                    linetype = "solid",
                    arrow = arrow(length = unit(2,"mm"),
-                                 ends = "both")) + 
+                                 ends = "both",
+                                 type = "closed")) + 
       #Arrows from group to observation
       geom_segment(x = dfarrows$x.grpob,
                    xend = dfarrows$xend.grpob,
@@ -116,7 +118,8 @@ shinyServer(function(input, output) {
                    linetype = "solid",
                    color = "red",
                    arrow = arrow(length = unit(2,"mm"),
-                                 ends = "both")) + 
+                                 ends = "both",
+                                 type = "closed")) + 
       #Points representing observations
       geom_point(shape = 21,
                  size = 3,
