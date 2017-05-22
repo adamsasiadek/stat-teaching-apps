@@ -16,7 +16,7 @@ shinyServer(function(input, output) {
               "Reading time"
   )
   # POSSIBLE LABEL COLOURS
-  labelcolswitch <- list(none = rep("darkgrey", times = 5),
+  labelcolswitch <- list(none = c("black","darkgrey","darkgrey","darkgrey","black"),
                          age = c("black","black","darkgrey","darkgrey","black"),
                          news = c("black","darkgrey","black","darkgrey","black"),
                          edu = c("black","darkgrey","darkgrey","black","black"))
