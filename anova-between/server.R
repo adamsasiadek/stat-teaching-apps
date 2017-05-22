@@ -139,7 +139,7 @@ shinyServer(function(input, output) {
                                   )
                          ) + 
       #Eta squared text label
-      geom_text(label = paste("eta^2 ==", round(etasqrd,2)),
+      geom_text(label = paste("'eta'^2 ==", round(etasqrd,2)),
                 x = 3,
                 y = max(df$y) + .5,
                 parse = TRUE) +
