@@ -17,7 +17,8 @@ shinyUI(
                radioButtons(
                  "confradbut",
                  label = "Select Confound",
-                 choices = c("Age" = "age",
+                 choices = c("None" = "none",
+                             "Age" = "age",
                              "News site use" = "news",
                              "Education" = "edu")
                  ,
