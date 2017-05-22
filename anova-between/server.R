@@ -27,9 +27,12 @@ shinyServer(function(input, output) {
     df <- isolate(
             data.frame(
               y = c(
-                    rnorm(n,input$clooneynumin,1),
-                    rnorm(n,input$jolienumin,1),
-                    rnorm(n,input$endorsernumin,1)
+                    input$clooneynumin - 0.7, input$clooneynumin + 1.3, 
+                    input$clooneynumin - 1.1, input$clooneynumin + 0.5,
+                    input$jolienumin + 0.8, input$jolienumin + 0.6, 
+                    input$jolienumin - 1.2, input$jolienumin - 0.2,
+                    input$endorsernumin - 0.9, input$endorsernumin + 2.1, 
+                    input$endorsernumin - 0.5, input$endorsernumin - 0.7
                     ),
                     x = spacemaker(3,n,.15),
                     cat = rep(

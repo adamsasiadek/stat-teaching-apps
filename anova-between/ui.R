@@ -42,7 +42,7 @@ shinyUI(
     ),
     fluidRow(align = "center",
              actionButton("newsampbut",
-                          label = "New sample"
+                          label = "Update graph"
                           )
              )
     )
