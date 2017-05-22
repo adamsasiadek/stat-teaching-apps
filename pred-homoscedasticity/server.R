@@ -5,7 +5,7 @@ shinyServer(function(input, output) {
     #Load styling file
     source("../plottheme/styling.R", local = TRUE)
     
-    n <- 20 #Number of observations
+    n <- 40 #Number of observations
     x <- seq(from = 0, to = 10, length.out = n)
     
     data <- reactive({
@@ -19,30 +19,32 @@ shinyServer(function(input, output) {
     output$scatterplot <- renderPlot({
       #Fit model
       
-     df = data.frame(attitude = x, exposure = data())
-      fit <- lm(exposure ~ attitude, data = df)
+     df = data.frame(exposure = x, attitude = data())
+      fit <- lm(attitude ~ exposure, data = df)
       
       #Extract predicted and residuals
       df$predicted <- predict(fit)
       df$resid <- residuals(fit)
       
       #PLOT
-      ggplot(df, aes(x = attitude, y = exposure)) + 
+      ggplot(df, aes(x = exposure, y = attitude)) + 
         geom_smooth(method='lm',
                     formula=y~x,
                     se = FALSE) +
-        geom_segment(aes(xend = attitude,
+        geom_segment(aes(xend = exposure,
                          yend = predicted),
                      color = brewercolors["Red"]) +
-        geom_point(shape = 21, size = 3)+
+        geom_point(shape = 21, size = 3) +
+        xlab("Exposure") +
+        ylab("Attitude") +
         theme_general()
       
     })
     #PRED VS RESID PLOT##
     output$residplot <- renderPlot({
       #Fit model
-      df <- data.frame(attitude = x, exposure = data())
-      fit <- lm(exposure ~ attitude, data = df)
+      df <- data.frame(exposure = x, attitude = data())
+      fit <- lm(attitude ~ exposure, data = df)
       #Extract pred and resid
       df$predicted <- predict(fit)
       df$resid <- residuals(fit)
@@ -60,8 +62,8 @@ shinyServer(function(input, output) {
         geom_point(shape = 21,
                    size = 3) +
         geom_hline(yintercept = 0) +
-        ylab("Predicted") +
-        xlab("Residual") +
+        xlab("Predicted attitude") +
+        ylab("Residual") +
         theme_general() +
         theme(legend.position = "none")
     })
