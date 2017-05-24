@@ -149,21 +149,26 @@ shinyServer(function(input, output) {
                  size = .5
       ) +
       #Arrow left
-      geom_segment(aes(x = mean,
-                       xend = mean - sd(df$mns),
+      geom_segment(aes(x = mean(df$mns),
+                       xend = mean(df$mns) - sd(df$mns),
                        y = 0.5 + .01 * length(df$mns),
                        yend = 0.5 + .01 * length(df$mns),
                        colour = "± 1 Standard deviation (data)"),
                    size = 1,
                    arrow = arrow(length = unit(.2,"cm"))) +
       #Arrow right
-      geom_segment(aes(x = mean,
-                       xend = mean + sd(df$mns),
+      geom_segment(aes(x = mean(df$mns),
+                       xend = mean(df$mns) + sd(df$mns),
                        y = 0.5 + .01 * length(df$mns),
                        yend = 0.5 + .01 * length(df$mns),
                        colour = "± 1 Standard deviation (data)"),
                    size = 1,
                    arrow = arrow(length = unit(.2,"cm"))) +
+      #Mean (data)
+      geom_point(aes(x = mean(df$mns),
+                     y = 0.5 + .01 * length(df$mns),
+                     colour = "± 1 Standard deviation (data)"),
+                 size = 3) +
       #Zoom level
       coord_cartesian(xlim = c(1,5)) + 
       #Tickmarks
