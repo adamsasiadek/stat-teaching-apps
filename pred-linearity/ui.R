@@ -1,7 +1,7 @@
 library(shiny)
 
 fig.width = 400
-fig.height = 300
+fig.height = 220
 shinyUI(
   fluidPage(
     verticalLayout(
