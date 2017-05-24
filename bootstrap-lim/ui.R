@@ -35,8 +35,8 @@ shinyUI(
         sliderInput(
           "samplesizeslider",
           label = "Sample size of initial sample",
-          min = 0,
-          max = 50,
+          min = 15,
+          max = 150,
           value = 25,
           step = 5
         )
