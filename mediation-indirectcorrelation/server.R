@@ -16,7 +16,8 @@ shinyServer(function(input, output) {
               "Reading time"
   )
   # POSSIBLE LABEL COLOURS
-  labelcolswitch <- list(age = c("black","black","darkgrey","darkgrey","black"),
+  labelcolswitch <- list(none = c("black","darkgrey","darkgrey","darkgrey","black"),
+                         age = c("black","black","darkgrey","darkgrey","black"),
                          news = c("black","darkgrey","black","darkgrey","black"),
                          edu = c("black","darkgrey","darkgrey","black","black"))
   # ARROW POSITIONS
@@ -27,6 +28,7 @@ shinyServer(function(input, output) {
  # POSSIBLE ARROW COLOURS
   arrcolswitch <-
     list(
+      none = rep("darkgrey", times = 6),
       age = c("blue", "darkgrey", "darkgrey", "blue", "darkgrey", "darkgrey"),
       news = c("darkgrey", "blue", "darkgrey", "darkgrey", "blue", "darkgrey"),
       edu = c("darkgrey", "darkgrey", "blue", "darkgrey", "darkgrey", "blue")
@@ -41,6 +43,7 @@ shinyServer(function(input, output) {
   
   # POSSIBLE ARROW TEXT LABEL COLURS
   arrlabcolswitch <-  list(
+    none = rep("darkgrey", times = 6),
     age = c("blue", "darkgrey", "darkgrey", "blue", "darkgrey", "darkgrey"),
     news = c("darkgrey", "blue", "darkgrey", "darkgrey", "blue", "darkgrey"),
     edu = c("darkgrey", "darkgrey", "blue", "darkgrey", "darkgrey", "blue")
@@ -61,24 +64,28 @@ shinyServer(function(input, output) {
   output$mainplot <- renderPlot({
    # Switch for arrow colours
    arrowcolour <- switch(input$confradbut,
+                          none = arrcolswitch$none,
                           news = arrcolswitch$news,
                           age = arrcolswitch$age,
                           edu = arrcolswitch$edu
                   )
    # Switch for label colour
    labelcolour <- switch(input$confradbut,
+                         none = labelcolswitch$none,
                          news = labelcolswitch$news,
                          age = labelcolswitch$age,
                          edu = labelcolswitch$edu
                   )
    # Switch for arrow label colour
    arrlabcolour <- switch(input$confradbut,
+                          none = arrlabcolswitch$none,
                           news = arrlabcolswitch$news,
                           age = arrlabcolswitch$age,
                           edu = arrlabcolswitch$edu
                     )
    # Hardcode of partial label/size
    partialsize <- switch(input$confradbut,
+                         none = NA,
                          news = 0.15,
                          age =  0.04,
                          edu = 0.19)
@@ -88,17 +95,16 @@ shinyServer(function(input, output) {
       #All segments/arrows running via the mediator
       geom_segment(data = arrowpos, aes(x = x, y = y, xend = xend, yend = yend),
                    colour = arrowcolour, alpha = .8,
-                   arrow = arrow(length = unit(0.03, "npc")),
                    size = arrsize) + 
       #Partial arrow
-      geom_segment(x = .15,
-                   xend = .7,
-                   y = .15,
-                   yend = .15,
-                   alpha = .7,
-                   colour = "blue",
-                   arrow =arrow(length = unit(0.03, "npc"),type = "closed"),
-                   size = lwdfunc(partialsize)*2) +
+      # geom_segment(x = .15,
+      #              xend = .7,
+      #              y = .15,
+      #              yend = .15,
+      #              alpha = .7,
+      #              colour = "blue",
+      #              arrow =arrow(length = unit(0.03, "npc"),type = "closed"),
+      #              size = lwdfunc(partialsize)*2) +
       #Simple arrow
       geom_segment(x = .15,
                    xend = .7,
@@ -123,9 +129,12 @@ shinyServer(function(input, output) {
       # Text label Simple
       geom_text(x = .5, y = .2, label = "Simple: 0.14") +
       # Text label Partial
-      geom_text(x = .5, y = .1, label = paste("Partial:",partialsize)) + 
+      geom_text(x = .5, y = .1, 
+                label = ifelse(is.na(partialsize), "", paste("Partial:",partialsize)),
+                colour = "blue") + 
       # Coordinate definitions
-      coord_cartesian(xlim = c(0,1), ylim = c(0,1)) + 
+      scale_x_continuous(limits = c(0,1), breaks = NULL) +
+      scale_y_continuous(limits = c(0,1), breaks = NULL) +
       xlab("") +
       ylab("") +
       theme_general()

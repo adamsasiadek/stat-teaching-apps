@@ -16,8 +16,9 @@ shinyUI(
                
                radioButtons(
                  "confradbut",
-                 label = "Select Confound",
-                 choices = c("Age" = "age",
+                 label = "Add confounder to the model",
+                 choices = c("None" = "none",
+                             "Age" = "age",
                              "News site use" = "news",
                              "Education" = "edu")
                  ,
